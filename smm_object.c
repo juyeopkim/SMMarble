@@ -38,28 +38,14 @@ typedef struct smmObject {
 } smmObject_t;
 
 //2. 구조체 배열 변수 정의 
-smmObject_t smm_node[MAX_NODE];
-
-#if 0
-static char smmObj_name[MAX_NODE][MAX_CHARNAME];
-static int smmObj_type[MAX_NODE];
-static int smmObj_credit[MAX_NODE];
-static int smmObj_energy[MAX_NODE];
-#endif
+static smmObject_t smm_node[MAX_NODE];
 
 static int smmObj_noNode = 0;
 
 //3. 관련 함수 변경 
 //object generation
 void smmObj_genNode(char* name, int type, int credit, int energy)
-{
-    #if 0
-    strcpy(smmObj_name[smmObj_noNode], name);
-    smmObj_type[smmObj_noNode] = type;
-    smmObj_credit[smmObj_noNode] = credit;
-    smmObj_energy[smmObj_noNode] = energy;
-    #endif
-    
+{    
     strcpy(smm_node[smmObj_noNode].name, name);
     smm_node[smmObj_noNode].type = type;
     smm_node[smmObj_noNode].credit = credit;
