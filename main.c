@@ -15,7 +15,7 @@
 #define FOODFILEPATH "marbleFoodConfig.txt"
 #define FESTFILEPATH "marbleFestivalConfig.txt"
 
-#define MAX_PLAYER     100
+
 
 //board configuration parameters
 static int board_nr;
@@ -48,7 +48,7 @@ void generatePlayers(int n, int initEnergy) //generate a new player
      for (i=0;i<n;i++)
      {
          //input name
-         printf(); //안내 문구 
+         printf("Input player %i's name:", i); //안내 문구 
          scanf("%s", player_name[i]);
          fflush(stdin);
          
@@ -58,7 +58,6 @@ void generatePlayers(int n, int initEnergy) //generate a new player
          //set energy
          player_energy[i] = initEnergy;
      }
-     
 }
 
 
@@ -100,6 +99,7 @@ int main(int argc, const char * argv[]) {
     int credit;
     int energy;
     int i;
+    int initEnergy;
     
     board_nr = 0;
     food_nr = 0;
@@ -122,13 +122,19 @@ int main(int argc, const char * argv[]) {
     {
         //store the parameter set
         smmObj_genNode(name, type, credit, energy);
+        if (type == SMMNODE_TYPE_HOME)
+           initEnergy = energy;
         board_nr++;
     }
     fclose(fp);
     printf("Total number of board nodes : %i\n", board_nr);
     
+    
     for (i = 0;i<board_nr;i++)
-        printf("node %i : %s, %i(%s)\n", i, smmObj_getNodeName(i), smmObj_getNodeType(i), smmObj_getTypeName(smmObj_getNodeType(i)));
+        printf("node %i : %s, %i(%s), credit %i, energy %i\n", 
+                     i, smmObj_getNodeName(i), 
+                     smmObj_getNodeType(i), smmObj_getTypeName(smmObj_getNodeType(i)),
+                     smmObj_getNodeCredit(i), smmObj_getNodeEnergy(i));
     
     printf("(%s)", smmObj_getTypeName(SMMNODE_TYPE_LECTURE));
     
@@ -164,7 +170,7 @@ int main(int argc, const char * argv[]) {
     }
     fclose(fp);
     printf("Total number of festival cards : %i\n", festival_nr);
-    
+    #endif
     
     
     //2. Player configuration ---------------------------------------------------------------------------------
@@ -176,11 +182,13 @@ int main(int argc, const char * argv[]) {
         scanf("%d", &player_nr);
         fflush(stdin);
     }
-    while (player_nr < 0 || player >  MAX_PLAYER);
+    while (player_nr < 0 || player_nr >  MAX_PLAYER);
     
     generatePlayers(player_nr, initEnergy);
     
     
+    
+    #if 0
     //3. SM Marble game starts ---------------------------------------------------------------------------------
     while () //is anybody graduated?
     {
